@@ -1,0 +1,44 @@
+:root {
+    --bg-main: #0079bf; --bg-list: #ebecf0; --text-main: #172b4d;
+    --card-bg: #ffffff; --accent: #5aac44; --error: #eb5a46;
+}
+.dark-theme {
+    --bg-main: #1d2125; --bg-list: #101204; --text-main: #b6c2cf; --card-bg: #22272b;
+}
+
+body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-main); margin: 0; transition: 0.3s ease; }
+
+/* Auth Overlay */
+.auth-overlay { position: fixed; inset: 0; background: var(--bg-main); display: flex; align-items: center; justify-content: center; z-index: 5000; }
+.auth-card { background: white; padding: 40px; border-radius: 8px; width: 350px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); color: #333; }
+.auth-card input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+.auth-buttons { display: flex; gap: 10px; margin-top: 15px; }
+.btn-primary { background: var(--accent); color: white; border: none; padding: 12px; border-radius: 4px; flex: 1; cursor: pointer; font-weight: bold; }
+.btn-outline { background: white; border: 1.5px solid var(--accent); color: var(--accent); padding: 12px; border-radius: 4px; flex: 1; cursor: pointer; }
+.btn-link { background: none; border: none; color: #0079bf; cursor: pointer; margin-top: 15px; font-size: 0.85rem; }
+.error-text { color: var(--error); font-size: 0.8rem; margin-top: 10px; }
+
+/* Header & Tablero */
+header { background: rgba(0,0,0,0.2); padding: 15px 20px; color: white; }
+.header-main { display: flex; justify-content: space-between; align-items: center; }
+.board { display: flex; padding: 20px; gap: 15px; overflow-x: auto; height: 85vh; align-items: flex-start; }
+.list { background: var(--bg-list); width: 300px; min-width: 300px; border-radius: 8px; padding: 12px; max-height: 92%; display: flex; flex-direction: column; }
+.v-tag { font-size: 0.6rem; background: var(--accent); padding: 2px 6px; border-radius: 4px; }
+
+/* Tarjetas y Avatares */
+.card { background: var(--card-bg); color: var(--text-main); padding: 12px; margin-bottom: 8px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); cursor: grab; }
+.avatar-stack { display: flex; flex-direction: row-reverse; }
+.avatar { width: 26px; height: 26px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: bold; border: 2px solid var(--card-bg); margin-left: -8px; }
+.avatar-selectable { opacity: 0.3; cursor: pointer; transition: 0.2s; }
+.avatar-selectable.selected { opacity: 1; transform: scale(1.1); box-shadow: 0 0 5px rgba(0,0,0,0.2); }
+
+/* Modal & Progress */
+.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1000; }
+.modal-content { background: #f4f5f7; margin: 3% auto; width: 600px; border-radius: 8px; padding: 25px; color: #333; }
+.progress-bar { background: #dfe1e6; height: 8px; border-radius: 4px; margin: 10px 0; overflow: hidden; }
+#progress-fill { background: var(--accent); height: 100%; width: 0%; transition: 0.3s; }
+
+/* Utils */
+.side-panel { position: fixed; right: -350px; top: 0; width: 320px; height: 100%; background: white; transition: 0.3s; z-index: 2000; padding: 20px; box-shadow: -5px 0 15px rgba(0,0,0,0.1); color: #333; }
+.side-panel.active { right: 0; }
+.tag { padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; background: #dfe1e6; color: #172b4d; margin: 0 4px 4px 0; display: inline-block; }
