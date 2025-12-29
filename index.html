@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro-Task Cloud | Empresa</title>
+    <title>Pro-Task Enterprise | Cloud v5.2</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body class="light-theme">
@@ -11,12 +11,15 @@
     <div id="auth-container" class="auth-overlay">
         <div class="auth-card">
             <h2>Pro-Task Enterprise</h2>
-            <input type="email" id="login-email" placeholder="Email">
-            <input type="password" id="login-pass" placeholder="Password">
+            <p>Acceso Corporativo Seguro</p>
+            <input type="email" id="login-email" placeholder="Correo Electrónico">
+            <input type="password" id="login-pass" placeholder="Contraseña">
+            
             <div class="auth-buttons">
                 <button id="btn-login" class="btn-primary">Entrar</button>
                 <button id="btn-signup" class="btn-outline">Registrarse</button>
             </div>
+            <button id="btn-reset" class="btn-link">¿Olvidaste tu contraseña?</button>
             <p id="auth-error" class="error-text"></p>
         </div>
     </div>
@@ -28,11 +31,11 @@
                     <span id="user-display">Usuario</span>
                     <button id="btn-logout" class="btn-logout-mini">Salir</button>
                 </div>
-                <h1>Tablero Cloud <span class="v-tag">v5.1</span></h1>
+                <h1>Tablero Maestro <span class="v-tag">v5.2 Cloud</span></h1>
                 <div class="header-actions">
-                    <input type="text" id="board-search" placeholder="Filtrar...">
+                    <input type="text" id="board-search" placeholder="Buscar tarea o miembro..." onkeyup="window.searchCards()">
                     <button id="btn-theme" class="btn-icon">🌓</button>
-                    <button id="btn-export" class="btn-secondary">CSV</button>
+                    <button onclick="window.exportToCSV()" class="btn-secondary">Exportar CSV</button>
                     <button id="btn-toggle-log" class="btn-secondary">Logs</button>
                 </div>
             </div>
@@ -45,56 +48,68 @@
                 <div class="cards-container" id="todo"></div>
                 <div class="add-card-container">
                     <input type="text" placeholder="Nueva tarea..." class="card-input">
-                    <button onclick="handleAddNewCard(this)" class="btn-add-task">+ Añadir</button>
+                    <button onclick="window.handleAddNewCard(this)" class="btn-add-task">+ Añadir</button>
                 </div>
             </div>
+
             <div class="list" data-id="in-progress">
                 <div class="list-header"><h3>En Proceso</h3></div>
                 <div class="cards-container" id="in-progress"></div>
                 <div class="add-card-container">
-                    <input type="text" placeholder="¿Qué haces?..." class="card-input">
-                    <button onclick="handleAddNewCard(this)" class="btn-add-task">+ Añadir</button>
+                    <input type="text" placeholder="¿Qué haces hoy?..." class="card-input">
+                    <button onclick="window.handleAddNewCard(this)" class="btn-add-task">+ Añadir</button>
                 </div>
             </div>
+
             <div class="list" data-id="done">
                 <div class="list-header"><h3>Finalizado</h3></div>
                 <div class="cards-container" id="done"></div>
                 <div class="add-card-container">
-                    <input type="text" placeholder="Terminada..." class="card-input">
-                    <button onclick="handleAddNewCard(this)" class="btn-add-task">+ Añadir</button>
+                    <input type="text" placeholder="Tarea terminada..." class="card-input">
+                    <button onclick="window.handleAddNewCard(this)" class="btn-add-task">+ Añadir</button>
                 </div>
             </div>
         </main>
     </div>
 
     <aside id="history-panel" class="side-panel">
-        <div class="panel-header"><h3>Logs</h3><button id="close-history">×</button></div>
+        <div class="panel-header"><h3>Actividad Reciente</h3><button id="close-history">×</button></div>
         <div id="history-log" class="panel-content"></div>
     </aside>
 
     <div id="card-modal" class="modal">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
+            <span class="close-modal" onclick="window.closeModal()">&times;</span>
             <input type="text" id="modal-title" class="editable-title">
+            
             <div class="modal-grid">
                 <div class="modal-section">
-                    <h4>Miembros</h4>
+                    <h4>Responsables</h4>
                     <div id="modal-members" class="avatar-selection-list"></div>
                 </div>
                 <div class="modal-section">
-                    <h4>Tags</h4>
+                    <h4>Tags y Vencimiento</h4>
                     <div id="modal-tags" class="tags-container"></div>
-                    <input type="text" id="tag-input" placeholder="Tag + Enter">
+                    <input type="text" id="tag-input" placeholder="Tag + Enter" onkeydown="if(event.key==='Enter') window.addTag()">
                     <input type="date" id="modal-date" class="date-input-modal">
                 </div>
             </div>
-            <textarea id="modal-desc" placeholder="Descripción..."></textarea>
-            <div id="modal-checklist"></div>
-            <div class="add-check-item">
-                <input type="text" id="new-check-input">
-                <button id="add-check-btn">+</button>
+
+            <div class="modal-section">
+                <h4>Descripción</h4>
+                <textarea id="modal-desc" placeholder="Detalles de la tarea..."></textarea>
             </div>
-            <button id="btn-archive" class="btn-danger">Eliminar</button>
+
+            <div class="modal-section">
+                <h4>Checklist <span id="check-percent">0%</span></h4>
+                <div class="progress-bar"><div id="progress-fill"></div></div>
+                <div id="modal-checklist"></div>
+                <div class="add-check-item">
+                    <input type="text" id="new-check-input">
+                    <button onclick="window.addChecklistItem()">+</button>
+                </div>
+            </div>
+            <button onclick="window.archiveCardFromModal()" class="btn-danger">Archivar / Eliminar Tarea</button>
         </div>
     </div>
 
